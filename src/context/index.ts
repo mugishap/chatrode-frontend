@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { io } from "socket.io-client";
-import { socketUrl } from "../api";
+import { socketUrl } from "../api/url";
 
 export const socket = io(socketUrl);
 

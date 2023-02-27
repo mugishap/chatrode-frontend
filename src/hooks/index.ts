@@ -5,9 +5,7 @@ import { toast } from "react-toastify";
 export const useLogin = async (
   user: { email: string; password: string },
   setError: any,
-  login: any,
   dispatch: any,
-  setLoginPage: any,
   setLoading: any
 ) => {
   try {
@@ -16,7 +14,6 @@ export const useLogin = async (
     const response = request.data;
     window.location.reload();
     dispatch(login({ ...response.user, token: response.token }));
-    setLoginPage(false);
     localStorage.setItem("token", response.token);
     toast.success("Logged in successfully!");
   } catch (error: any) {
@@ -29,15 +26,13 @@ export const useLogin = async (
 
 export const useSignup = async (
   user: {
-    fullname: string;
-    email: string;
-    password: string;
-    username: string;
-    profileImage: any;
+    fullName?: string;
+    username?: string;
+    email?: string;
+    password?: string;
   },
   setError: any,
   dispatch: any,
-  setLoginPage: any,
   setLoading: any
 ) => {
   try {
@@ -48,7 +43,6 @@ export const useSignup = async (
     });
     const response = await request.data;
     dispatch(login({ ...response.user, token: response.token }));
-    setLoginPage(false);
     toast.success("Account created successfully!");
     window.location.reload();
   } catch (error: any) {

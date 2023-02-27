@@ -30,3 +30,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+input[type=checkbox] {
+    accent-color: #7269ef;
+  }

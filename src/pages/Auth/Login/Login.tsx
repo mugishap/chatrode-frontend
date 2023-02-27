@@ -35,7 +35,7 @@ const Login = () => {
     <div className='w-screen h-screen flex items-start pt-16 justify-center'>
       <div className='flex w-11/12 msm:w-8/12 mlg:w-6/12 lg:w-4/12 xl:w-3/12 flex-col items-center '>
         <div className='flex items-end mb-8 justify-center'>
-          <img src={logo} className="w-16" alt="Logo for Chat Rode" />
+          <img src={logo} className="w-10" alt="Logo for Chat Rode" />
           <span className='font-bold text-xl text-slate-500 mb-2'>Chat Rode</span>
         </div>
         <div className='flex flex-col items-center'>

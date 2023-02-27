@@ -1,12 +1,10 @@
 import axios from 'axios'
+import { apiUrl } from './url'
 
 const api = axios.create({
-    baseURL: "https://localhost:3000"
+    baseURL: apiUrl
 })
 
-const socketUrl = "https://localhost:3000"
-
 export {
-    api,
-    socketUrl
+    api
 }

@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { CommonContext } from '../../context'
+import { useSignup } from '../../hooks'
 import { FormInput, SignupData } from '../../types'
 import Input from '../Custom/Input'
 
@@ -16,10 +18,21 @@ const SignupForm: React.FC<Props> = ({ inputs }) => {
         email: "",
         password: "",
         username: "",
-        showPassword: false
     })
+
+    const dispatch = useDispatch()
+    const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        console.log(signupData);
+        useSignup(
+            { ...signupData },
+            setError,
+            dispatch,
+            setLoading
+        );
         console.log(signupData);
     }
 
