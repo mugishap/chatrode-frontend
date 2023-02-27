@@ -1,33 +1,44 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
+import Pages from './Pages'
+import { CommonContext } from './context'
+import { User } from './types'
+import theme from './theme/theme'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [users, setUsers] = useState<User[]>([])
+  const [rooms, setRooms] = useState<[]>([]);
+  const [currentRoom, setCurrentRoom] = useState();
+  const [members, setMembers] = useState<[]>([]);
+  const [messages, setMessages] = useState<[]>([]);
+  const [fullScreen, setFullScreen] = useState<boolean>(false);
+  const [currentTheme, setCurrentTheme] = useState<'light' | 'dark'>('light');
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <CommonContext.Provider
+      value={{
+        users,
+        setUsers,
+        rooms,
+        setRooms,
+        currentRoom,
+        setCurrentRoom,
+        members,
+        setMembers,
+        messages,
+        setMessages,
+        fullScreen,
+        setFullScreen,
+        currentTheme,
+        setCurrentTheme,
+        theme: theme[currentTheme]
+      }}
+    >
+      <div className="font-lato min-h-screen w-screen flex flex-col">
+        <Pages />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
+    </CommonContext.Provider>
   )
 }
 
