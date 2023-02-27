@@ -45,3 +45,9 @@ export interface SignupData {
     password?: string,
     showPassword?: boolean
 }
+
+export interface LoginData {
+    email?: string,
+    password?: string,
+    showPassword?: boolean
+}
