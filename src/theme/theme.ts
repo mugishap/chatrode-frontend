@@ -6,6 +6,9 @@ const theme: Theme = {
     addons: "#f5f7fb",
     textColor: '#495057',
     backgroundColor: '#f8f6ff',
+    sidebarBackgroundColor:"#ffffff",
+    chatsColor:"#f5f7fb00",
+    iconColor:"#455369"
 
   },
   dark: {
@@ -13,6 +16,9 @@ const theme: Theme = {
     addons: "#36404a",
     textColor: '#f8f6ff00',
     backgroundColor: '#2e374100',
+    sidebarBackgroundColor:"#ffffff",
+    chatsColor:"#2e374100",
+    iconColor:"#f8f6ff"
   },
 };
 

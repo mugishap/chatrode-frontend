@@ -53,10 +53,10 @@ const CommonComponent: React.FC<{ children: ReactNode }> = ({ children }) => {
   ]
   const { theme } = useContext(CommonContext)
   return (
-    <div className="relative min-h-screen max-w-screen flex flex-row justify-between">
+    <div style={{ color: `${theme.color}`, backgroundColor: `${theme.sidebarBackgroundColor}` }} className="relative min-h-screen max-w-screen flex flex-row justify-between">
       <div style={{ backgroundColor: `${theme.backgroundColor}` }} className=' w-full flex items-center justify-between'>
         <Sidebar setActive={setActive} active={active} sideBarLinks={sideBarLinks} />
-        <div className="w-2/5 h-full flex flex-col items-center">{children}</div>
+        <div style={{ backgroundColor: `${theme.chatColor}`,color:`${theme.iconColor}` }} className="w-2/5 h-full flex flex-col items-center">{children}</div>
         <MainComponent />
       </div>
     </div>

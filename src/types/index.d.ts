@@ -26,7 +26,10 @@ export interface ThemeType {
     formBg: string
     addons: string
     textColor: string,
-    backgroundColor: string
+    backgroundColor: string,
+    sidebarBackgroundColor: string,
+    chatsColor: string,
+    iconColor: string
 }
 
 export interface FormInput {
@@ -57,5 +60,5 @@ export interface SidebarLinks {
     path: string,
     exact: boolean,
     admin: boolean,
-    name:string
+    name: string
 }

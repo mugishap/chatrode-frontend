@@ -3,11 +3,11 @@ import CommonComponent from '../../components/Common/CommonComponent'
 import SettingComponent from '../../components/Settings/SettingComponent'
 
 const Settings = () => {
-  return (
-    <CommonComponent>
-      <SettingComponent />
-    </CommonComponent>
-  )
+    return (
+        <CommonComponent>
+            <SettingComponent />
+        </CommonComponent>
+    )
 }
 
 export default Settings

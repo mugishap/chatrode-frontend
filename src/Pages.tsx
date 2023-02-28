@@ -42,7 +42,8 @@ const Pages = () => {
             <Route path='/' element={<Home />}></Route>
             <Route path='/chat' element={<Chat />}></Route>
             <Route path='/groups' element={<Groups />}></Route>
-            <Route path='/contact' element={<Contacts />}></Route>
+            <Route path='/contacts' element={<Contacts />}></Route>
+            <Route path='/settings' element={<Settings />}></Route>
             <Route path='/profile' element={<Profile />}></Route>
             <Route path='/auth/register' element={<Signup />}></Route>
             <Route path='/auth/login' element={<Login />}></Route>
