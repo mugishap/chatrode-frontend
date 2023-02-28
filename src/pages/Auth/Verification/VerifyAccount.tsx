@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useVerifyEmail } from '../../../hooks'
+import { BiLoaderAlt } from "react-icons/bi"
+import { wait } from '../../../utils/wait'
 
 const VerifyAccount = () => {
 
@@ -9,9 +11,10 @@ const VerifyAccount = () => {
   const { verificationToken } = useParams()
 
   useEffect(() => {
+    wait(3000)
     document.title = "Account Verification"
     if (verificationToken) {
-      useVerifyEmail(verificationToken,setLoading)
+      useVerifyEmail(verificationToken, setLoading)
     }
   }, [])
 
@@ -21,8 +24,10 @@ const VerifyAccount = () => {
         loading
           ?
           <div className='w-screen bg-cr-dark-bg h-screen flex flex-col justify-center items-center'>
-            <div className='animate-spin rounded-full h-20 w-20 border-b-2 border-cr-purple'></div>
-            <span className='font-bold mt-4'>Please wait while we verify your account</span>
+            {/* <div className='animate-spin rounded-full h-20 w-20 border-b-2 border-cr-purple'></div> */}
+            <BiLoaderAlt />
+            <span
+              className='font-bold mt-4'>Please wait while we verify your account</span>
           </div>
           :
           <div>

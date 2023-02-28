@@ -14,6 +14,7 @@ import Login from './pages/Auth/Login/Login'
 import Signup from './pages/Auth/Signup/Signup'
 import VerifyAccount from './pages/Auth/Verification/VerifyAccount'
 import Home from './pages/Home/Home'
+import Terms from './pages/Terms/Terms'
 import { User } from './types'
 
 const Pages = () => {
@@ -41,6 +42,7 @@ const Pages = () => {
             <Route path='/auth/reset-password/sucess' element={<PasswordResetSuccess />}></Route>
             <Route path='/auth/verify-email/:verificationToken' element={<VerifyAccount />}></Route>
             <Route path='/error' element={<InternalServerError />}></Route>
+            <Route path='/terms' element={<Terms />}></Route>
             {userSlice.isLoggedIn && user.role == "admin" && (
               <>
                 <Route path='/admin/dashboard' element={<Dashboard />}></Route>
