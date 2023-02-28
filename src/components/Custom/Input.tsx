@@ -10,7 +10,7 @@ interface Props extends React.DetailedHTMLProps<
     input: FormInput
 }
 
-const Input: React.FC<Props> = ({ input }): ReactElement => {
+const Input: React.FC<Props> = ({ input, value, onChange }): ReactElement => {
     const Icon = input.icon
     const { theme } = useContext(CommonContext)
     return (
@@ -31,7 +31,7 @@ const Input: React.FC<Props> = ({ input }): ReactElement => {
                 <div className={`w-10 rounded-l h-10 flex border items-center justify-center bg-addon text-slate-600 border-r border-r-slate-300`}>
                     <Icon />
                 </div>
-                <input type={input.type} className={`w-11/12 bg-light-input-bg placeholder:text-gray-400 placeholder:text-sm outline-none rounded-r px-3 h-10`} placeholder={input.placeholder} />
+                <input value={value} onChange={onChange} type={input.type} className={`w-11/12 bg-light-input-bg placeholder:text-gray-400 placeholder:text-sm outline-none rounded-r px-3 h-10`} placeholder={input.placeholder} />
             </div>
         </div>
     )

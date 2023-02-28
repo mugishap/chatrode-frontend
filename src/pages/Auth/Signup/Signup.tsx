@@ -11,7 +11,7 @@ const Signup = () => {
     {
       icon: RiUser2Line,
       label: "Full Name",
-      name: "fullName",
+      name: "fullname",
       type: "text",
       placeholder: "Enter your full name",
       required: true

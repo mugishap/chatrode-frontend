@@ -1,6 +1,9 @@
 import React, { FormEvent, useEffect, useState } from 'react'
 import { RiLock2Line, RiMailAddLine } from 'react-icons/ri';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Input from '../../../components/Custom/Input';
+import { useResetPassword } from '../../../hooks';
 import { FormInput } from '../../../types';
 import logo from './../../../assets/logo.svg'
 
@@ -9,6 +12,7 @@ const ResetPassword = () => {
   const [formData, setFormData] = useState({
     password: ""
   })
+  const { passwordResetToken } = useParams()
 
   const inputs: FormInput[] = [
     {
@@ -22,7 +26,8 @@ const ResetPassword = () => {
   ]
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log("Submitted")
+    if (!formData.password) toast.error("Password is required")
+    useResetPassword(passwordResetToken as string, formData.password)
   }
 
   useEffect(() => {
@@ -43,7 +48,7 @@ const ResetPassword = () => {
           <form className='w-full flex flex-col items-center rounded' onSubmit={handleSubmit}>
             {
               inputs.map((input, index) => (
-                <Input required value={formData['password'] as string} onChange={(e) => { console.log("Changing " + e); setFormData({ ...formData, password: e.target.value }) }} input={input} key={index} />
+                <Input required value={formData['password']} onChange={(e) => setFormData({ ...formData, password: e.target.value })} input={input} key={index} />
               ))
             }
             <button type="submit" className='text-white mt-4 bg-cr-purple w-fit px-3 py-2.5 rounded cursor-pointer'>Continue</button>

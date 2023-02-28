@@ -40,7 +40,7 @@ export interface FormInput {
 }
 
 export interface SignupData {
-    fullName?: string,
+    fullname?: string,
     email?: string,
     username?: string,
     password?: string,
@@ -49,4 +49,13 @@ export interface SignupData {
 export interface LoginData {
     email?: string,
     password?: string,
+}
+
+export interface SidebarLinks {
+    icon: IconType
+    label: string,
+    path: string,
+    exact: boolean,
+    admin: boolean,
+    name:string
 }

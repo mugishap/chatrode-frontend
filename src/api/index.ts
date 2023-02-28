@@ -2,7 +2,10 @@ import axios from 'axios'
 import { apiUrl } from './url'
 
 const api = axios.create({
-    baseURL: apiUrl
+    baseURL: apiUrl,
+    headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }
 })
 
 export {

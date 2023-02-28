@@ -39,7 +39,7 @@ function App() {
       }}
     >
       <div className="font-lato min-h-screen w-screen flex flex-col">
-        <ToastContainer />
+        <ToastContainer theme='colored' position='top-center' hideProgressBar={true} />
         <Pages />
       </div>
     </CommonContext.Provider>

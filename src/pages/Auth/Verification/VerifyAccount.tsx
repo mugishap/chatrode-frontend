@@ -24,8 +24,7 @@ const VerifyAccount = () => {
         loading
           ?
           <div className='w-screen bg-cr-dark-bg h-screen flex flex-col justify-center items-center'>
-            {/* <div className='animate-spin rounded-full h-20 w-20 border-b-2 border-cr-purple'></div> */}
-            <BiLoaderAlt />
+            <div className='animate-spin rounded-full h-20 w-20 border-b-2 border-cr-purple'></div>
             <span
               className='font-bold mt-4'>Please wait while we verify your account</span>
           </div>

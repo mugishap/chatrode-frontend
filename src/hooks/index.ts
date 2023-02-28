@@ -10,12 +10,13 @@ export const useLogin = async (
 ) => {
   try {
     setLoading(true);
-    const request = await api.post("/user/login", user);
+    const request = await api.post("/auth/login", user);
     const response = request.data;
     window.location.reload();
-    dispatch(login({ ...response.user, token: response.token }));
-    localStorage.setItem("token", response.token);
+    dispatch(login({ ...response.data.user }));
+    localStorage.setItem("access_token", response.data.token);
     toast.success("Logged in successfully!");
+    window.location.replace("/")
   } catch (error: any) {
     setError(error.response.data.message);
   } finally {
@@ -26,7 +27,7 @@ export const useLogin = async (
 
 export const useSignup = async (
   user: {
-    fullName?: string;
+    fullname?: string;
     username?: string;
     email?: string;
     password?: string;
@@ -38,15 +39,16 @@ export const useSignup = async (
   try {
     setLoading(true);
     const request = await api.post("/user/register", {
-      ...user,
-      joined: new Date()
+      ...user
     });
     const response = await request.data;
-    dispatch(login({ ...response.user, token: response.token }));
+    console.log(response);
+    dispatch(login({ ...response.data.user }));
+    localStorage.setItem("access_token", response.data.token)
     toast.success("Account created successfully!");
-    window.location.reload();
+    window.location.replace("/")
   } catch (error: any) {
-    setError(`${error.response.data.content}`);
+    setError(`${error.response.data.message}`);
     console.log(error);
   } finally {
     setLoading(false);
@@ -61,14 +63,10 @@ export const getUsers = async (
   updateUsers: any
 ) => {
   try {
-    const request = await api.get("/user/all", {
-      headers: {
-        authorization: token
-      }
-    });
+    const request = await api.get("/user/all");
     const response = request.data;
-    setUsers(response.users);
-    dispatch(updateUsers(response.users));
+    setUsers(response.data.users);
+    dispatch(updateUsers(response.data.users));
   } catch (error) {
     console.log(error);
   }
@@ -91,11 +89,7 @@ export const deleteUserByAdmin = async (
 ) => {
   try {
     setLoading(true);
-    await api.delete(`/user/delete/${userId}`, {
-      headers: {
-        authorization: token
-      }
-    });
+    await api.delete(`/user/delete/${userId}`);
     toast.success("User Deleted Successfully");
   } catch (error) {
     console.log(error);
@@ -108,12 +102,9 @@ export const deleteUserByAdmin = async (
 
 export const useVerifyEmail = async (verificationToken: string, setLoading: Function) => {
   try {
-    const request = await api.post("/auth/verify-email", { verificationToken }, {
-      headers: {
-        authorization: `Bearer ${localStorage.getItem("token")}`
-      },
-    });
+    const request = await api.post("/auth/verify-email", { verificationToken });
     const response = request.data;
+    if (!response.success) toast.error(response.mesage)
     return response;
   } catch (error: any) {
     console.log(error);
@@ -121,5 +112,32 @@ export const useVerifyEmail = async (verificationToken: string, setLoading: Func
   }
   finally {
     setLoading(false)
+  }
+}
+
+export const useForgotPassword = async (email: string) => {
+  try {
+    const request = await api.post("/auth/initiate-password-reset", { email })
+    const response = request.data
+    if (!response.success) toast.error(response.mesage)
+    toast.success("Password reset email sent successfully")
+    window.location.replace("/auth/forgot-password-pending")
+  } catch (error: any) {
+    console.log(error)
+    toast.error(error.response.data.message)
+  }
+}
+
+export const useResetPassword = async (token: string, password: string) => {
+  try {
+    console.log(token);
+    const request = await api.post("/auth/reset-password", { passwordResetToken: token, password })
+    const response = request.data
+    if (!response.success) toast.error(response.mesage)
+    toast.success("Password reset successfully")
+    window.location.replace("/auth/reset-password/sucess")
+  } catch (error: any) {
+    console.log(error)
+    toast.error(error.response.data.message)
   }
 }

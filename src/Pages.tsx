@@ -8,12 +8,17 @@ import { CommonContext } from './context'
 import PageNotfound from './pages/404/PageNotfound'
 import InternalServerError from './pages/500/InternalServerError'
 import ForgotPassword from './pages/Auth/ForgotPassword/ForgotPassword'
+import ForgotPasswordPending from './pages/Auth/ForgotPassword/ForgotPasswordPending'
 import PasswordResetSuccess from './pages/Auth/ForgotPassword/PasswordResetSuccess'
 import ResetPassword from './pages/Auth/ForgotPassword/ResetPassword'
 import Login from './pages/Auth/Login/Login'
 import Signup from './pages/Auth/Signup/Signup'
 import VerifyAccount from './pages/Auth/Verification/VerifyAccount'
-import Home from './pages/Home/Home'
+import Chat from './pages/Chat/Chat'
+import Home from './pages/Chat/Chat'
+import Contacts from './pages/Contacts/Contacts'
+import Groups from './pages/Groups/Groups'
+import Profile from './pages/Profile/Profile'
 import Terms from './pages/Terms/Terms'
 import { User } from './types'
 
@@ -34,12 +39,17 @@ const Pages = () => {
       <div style={{ backgroundColor: `${theme.backgroundColor}`, color: `${theme.textColor}` }} className={`w-screen min-h-screen flex flex-col`}>
         <BrowserRouter>
           <Routes>
+            <Route path='/' element={<Home />}></Route>
+            <Route path='/chat' element={<Chat />}></Route>
+            <Route path='/groups' element={<Groups />}></Route>
+            <Route path='/contact' element={<Contacts />}></Route>
+            <Route path='/profile' element={<Profile />}></Route>
             <Route path='/auth/register' element={<Signup />}></Route>
             <Route path='/auth/login' element={<Login />}></Route>
-            <Route path='/' element={<Home />}></Route>
             <Route path='/auth/forgot-password' element={<ForgotPassword />}></Route>
             <Route path='/auth/reset-password/:passwordResetToken' element={<ResetPassword />}></Route>
             <Route path='/auth/reset-password/sucess' element={<PasswordResetSuccess />}></Route>
+            <Route path='/auth/forgot-password-pending' element={<ForgotPasswordPending />}></Route>
             <Route path='/auth/verify-email/:verificationToken' element={<VerifyAccount />}></Route>
             <Route path='/error' element={<InternalServerError />}></Route>
             <Route path='/terms' element={<Terms />}></Route>

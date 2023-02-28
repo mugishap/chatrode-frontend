@@ -1,6 +1,8 @@
 import React, { FormEvent, useEffect, useState } from 'react'
 import { RiMailAddLine } from 'react-icons/ri';
+import { toast } from 'react-toastify';
 import Input from '../../../components/Custom/Input';
+import { useForgotPassword } from '../../../hooks';
 import { FormInput } from '../../../types';
 import logo from './../../../assets/logo.svg'
 
@@ -22,7 +24,8 @@ const ForgotPassword = () => {
     ]
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        console.log("Submitted")
+        if (!formData.email) toast.error("Email is required")
+        useForgotPassword(formData.email)
     }
 
     useEffect(() => {
@@ -31,14 +34,14 @@ const ForgotPassword = () => {
     return (
         <div className='w-full h-full flex items-start pt-16 justify-center'>
             <div className='flex w-11/12 msm:w-8/12 mlg:w-6/12 lg:w-4/12 xl:w-3/12 flex-col items-center '>
-                    <div className='flex items-end mb-8 justify-center'>
-                        <img src={logo} className="w-10" alt="Logo for Chat Rode" />
-                        <span className='font-bold text-xl text-slate-500 mb-2'>Chat Rode</span>
-                    </div>
-                    <div className='flex flex-col items-center'>
-                        <span className='font-bold text-xl my-3'>Forgot Password</span>
-                        <span className='font-medium text-[15px] mb-6'>You will receive an email for password reset.</span>
-                    </div>
+                <div className='flex items-end mb-8 justify-center'>
+                    <img src={logo} className="w-10" alt="Logo for Chat Rode" />
+                    <span className='font-bold text-xl text-slate-500 mb-2'>Chat Rode</span>
+                </div>
+                <div className='flex flex-col items-center'>
+                    <span className='font-bold text-xl my-3'>Forgot Password</span>
+                    <span className='font-medium text-[15px] mb-6'>You will receive an email for password reset.</span>
+                </div>
                 <div className={`w-full flex flex-col bg-[#fff] rounded justify-center items-center p-6`}>
                     <form className='w-full flex flex-col items-center rounded' onSubmit={handleSubmit}>
                         {

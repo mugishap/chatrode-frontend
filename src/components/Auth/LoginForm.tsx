@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { BiLoaderAlt } from 'react-icons/bi'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -43,15 +44,22 @@ const LoginForm: React.FC<Props> = ({ inputs }) => {
             <form className='w-full flex flex-col items-center rounded' onSubmit={handleSubmit}>
                 {
                     inputs.map((input, index) => (
-                        <Input required value={loginData[input.name as keyof LoginData] as string} onChange={(e) => { console.log("Changing " + e); setLoginData({ ...loginData, [input.name]: e.target.value }) }} input={input} key={index} />
+                        <Input required value={loginData[input.name as keyof LoginData] as string} onChange={(e) => setLoginData({ ...loginData, [input.name]: e.target.value })} input={input} key={index} />
                     ))
                 }
                 <div className='my-4 w-full flex items-center justify-start'>
                     <input type={"checkbox"} className="scale-150 mr-3" required />
                     <span>Remember me.</span>
                 </div>
-                <button type="submit" className='text-white mt-4 bg-cr-purple w-40 py-2.5 rounded cursor-pointer'>Continue</button>
-            </form>
+                <button disabled={loading} type="submit" className='text-white mt-4 items-center justify-center bg-cr-purple w-40 h-11 rounded cursor-pointer'>
+                    {
+                        loading
+                            ?
+                            <BiLoaderAlt className='m-auto animate-spin' size={25} />
+                            :
+                            "Continue"
+                    }
+                </button>            </form>
 
         </div>
     )
