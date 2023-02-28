@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import SignupForm from '../../../components/Auth/SignupForm'
 import { FormInput } from '../../../types'
 import logo from './../../../assets/logo.svg'
 import { RiLock2Line, RiMailLine, RiUser2Line } from 'react-icons/ri'

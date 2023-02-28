@@ -47,7 +47,7 @@ const LoginForm: React.FC<Props> = ({ inputs }) => {
                     ))
                 }
                 <div className='my-4 w-full flex items-center justify-start'>
-                    <input type={"checkbox"} className="scale-150 mr-3" />
+                    <input type={"checkbox"} className="scale-150 mr-3" required />
                     <span>Remember me.</span>
                 </div>
                 <button type="submit" className='text-white mt-4 bg-cr-purple w-40 py-2.5 rounded cursor-pointer'>Continue</button>

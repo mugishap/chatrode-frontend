@@ -5,6 +5,9 @@ import Pages from './Pages'
 import { CommonContext } from './context'
 import { User } from './types'
 import theme from './theme/theme'
+import { ToastContainer } from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css";
+
 
 function App() {
   const [users, setUsers] = useState<User[]>([])
@@ -36,6 +39,7 @@ function App() {
       }}
     >
       <div className="font-lato min-h-screen w-screen flex flex-col">
+        <ToastContainer />
         <Pages />
       </div>
     </CommonContext.Provider>

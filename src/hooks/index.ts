@@ -104,3 +104,22 @@ export const deleteUserByAdmin = async (
     setLoading(true);
   }
 };
+
+
+export const useVerifyEmail = async (verificationToken: string, setLoading: Function) => {
+  try {
+    const request = await api.post("/auth/verify-email", { verificationToken }, {
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("token")}`
+      },
+    });
+    const response = request.data;
+    return response;
+  } catch (error: any) {
+    console.log(error);
+    toast.error(error.message)
+  }
+  finally {
+    setLoading(false)
+  }
+}

@@ -20,11 +20,14 @@ const user: User = {
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    user
+    user,
+    isLoggedIn: false,
+    token: null
   },
   reducers: {
     login: (state, { payload }) => {
       state.user = { ...payload };
+      state.isLoggedIn = true
     },
     logout: (state) => {
       state.user = {
@@ -33,6 +36,7 @@ const userSlice = createSlice({
         fullname: "",
         username: "",
       };
+      state.isLoggedIn = false
     },
     update: (state, { payload }) => {
       state.user = { ...payload };

@@ -1,6 +1,7 @@
 import IcontType from "react-icons/lib/cjs/iconBase.d.ts"
 
 export interface User {
+    role?: string
     _id: String,
     fullname: String,
     username: String,
