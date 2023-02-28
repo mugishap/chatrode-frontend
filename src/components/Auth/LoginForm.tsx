@@ -59,7 +59,8 @@ const LoginForm: React.FC<Props> = ({ inputs }) => {
                             :
                             "Continue"
                     }
-                </button>            </form>
+                </button>
+            </form>
 
         </div>
     )

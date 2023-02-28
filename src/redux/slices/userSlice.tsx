@@ -8,7 +8,7 @@ const user: User = {
   email: "",
   accountStatus: "",
   profileStatus: "",
-  profileImage: "",
+  avatar: "",
   coverImage: "",
   password: "",
   createdAt: "",

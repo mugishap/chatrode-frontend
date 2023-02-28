@@ -3,8 +3,8 @@ import { Slide } from "react-awesome-reveal";
 import { RiContactsBookLine, RiContactsLine, RiGroupLine, RiHome2Fill, RiMessage3Line, RiSettings2Line, RiUser2Line } from "react-icons/ri";
 import { CommonContext } from "../../context";
 import { SidebarLinks } from "../../types";
-import MainComponent from "../Home/Main/MainComponent";
-import Sidebar from "../Home/Sidebar/Sidebar";
+import MainComponent from "../Chat/Main/MainComponent";
+import Sidebar from "../Chat/Sidebar/Sidebar";
 
 
 const CommonComponent: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -56,7 +56,7 @@ const CommonComponent: React.FC<{ children: ReactNode }> = ({ children }) => {
     <div style={{ color: `${theme.color}`, backgroundColor: `${theme.sidebarBackgroundColor}` }} className="relative min-h-screen max-w-screen flex flex-row justify-between">
       <div style={{ backgroundColor: `${theme.backgroundColor}` }} className=' w-full flex items-center justify-between'>
         <Sidebar setActive={setActive} active={active} sideBarLinks={sideBarLinks} />
-        <div style={{ backgroundColor: `${theme.chatColor}`,color:`${theme.iconColor}` }} className="w-2/5 h-full flex flex-col items-center">{children}</div>
+        <div style={{ backgroundColor: `${theme.chatColor}`,color:`${theme.iconColor}` }} className="w-3/12 h-full flex flex-col items-center">{children}</div>
         <MainComponent />
       </div>
     </div>
