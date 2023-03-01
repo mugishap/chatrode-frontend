@@ -1,6 +1,7 @@
 import { api } from "../api";
 import { login } from "../redux/slices/userSlice";
 import { toast } from "react-toastify";
+import { Dispatch } from "@reduxjs/toolkit";
 
 export const useLogin = async (
   user: { email: string; password: string },
@@ -139,5 +140,76 @@ export const useResetPassword = async (token: string, password: string) => {
   } catch (error: any) {
     console.log(error)
     toast.error(error.response.data.message)
+  }
+}
+
+export const uploadImage = async (image: string, setUpdateAvatarLoading: Function) => {
+  const data = new FormData();
+  data.append("file", image);
+  data.append("upload_preset", "utilities");
+  try {
+    let res = await fetch(
+      "https://api.cloudinary.com/v1_1/precieux/image/upload",
+      {
+        method: "post",
+        body: data
+      }
+    );
+    const urlData = await res.json();
+    return urlData.secure_url;
+  } catch (error: any) {
+    console.log(error);
+    toast.error(error.response.data.mesage)
+    return
+  }
+  finally {
+    setUpdateAvatarLoading(false)
+  }
+};
+export const useUpdateAvatar = async (imageUrl: string, dispatch: Dispatch, setUpdateAvatarLoading: Function) => {
+  try {
+    const request = await api.post("/user/update-avatar", { avatar: imageUrl })
+    const response = request.data
+    console.log(response)
+    if (response.success) toast.success("Profile Image updated successfully")
+    dispatch(login({ ...response.data.user }))
+  } catch (error: any) {
+    console.log(error);
+    toast.error(error.response.data.mesage)
+    return
+  }
+  finally {
+    setUpdateAvatarLoading(false)
+  }
+}
+
+export const useUpdateUser = async (editedUser: any, dispatch: Dispatch, setLoading: Function, setEditMode: Function, setViewMore: Function) => {
+  try {
+    const request = await api.put("/user/update", { ...editedUser })
+    const response = request.data
+    if (!response.success) toast.error(response.message)
+    console.log(response);
+    dispatch(login({ ...response.data.user }))
+    toast.success("Profile updated successfully")
+    setEditMode(false)
+    setViewMore(false)
+  } catch (error: any) {
+    console.log(error);
+    toast.error(error.response.data.message)
+  }
+  finally {
+    setLoading(false)
+  }
+}
+
+export const useDeleteAccount = async (password: string) => {
+  try {
+const request = await 
+  } catch (error:any) {
+    console.log(error);
+    toast.error(error.response.data.mesage)
+  }
+  finally {
+    setLoading(false)
   }
 }

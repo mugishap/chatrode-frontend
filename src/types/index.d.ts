@@ -2,20 +2,20 @@ import IcontType from "react-icons/lib/cjs/iconBase.d.ts"
 
 export interface User {
     active: boolean
-    avatar?: string 
+    avatar?: string
     role?: string
-    _id: String,
-    fullname: String,
-    username: String,
-    email: String,
-    accountStatus?: String,
-    profileStatus?: String,
-    coverImage?: String,
-    password?: String,
-    createdAt?: String,
-    updatedAt?: String,
-    passwordReset?: String,
-    verification?: String
+    _id: string,
+    fullname: string,
+    username: string,
+    email: string,
+    accountStatus?: string,
+    profileStatus?: string,
+    coverImage?: string,
+    password?: string,
+    createdAt?: string,
+    updatedAt?: string,
+    passwordReset?: string,
+    verification?: string
 }
 
 export interface Theme {
@@ -39,7 +39,8 @@ export interface FormInput {
     name: string,
     type: string,
     placeholder: string,
-    required: boolean
+    required: boolean,
+    value?: string
 
 }
 

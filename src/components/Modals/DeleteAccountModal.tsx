@@ -18,7 +18,7 @@ const DeleteAccountModal: React.FC<Props> = ({ theme, viewDeleteModal, setViewDe
 
     const handleDeleteAccount = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        // useDeleteAccount() // TODO -> implement delete account hook
+        useDeleteAccount(password) // TODO -> implement delete account hook
     }
 
     const input: FormInput = {
@@ -31,9 +31,9 @@ const DeleteAccountModal: React.FC<Props> = ({ theme, viewDeleteModal, setViewDe
     }
 
     return (
-        <div className='absolute w-full h-full z-[3] bg-black/70 backdrop-blur-lg flex flex-col items-center justify-center'>
+        <div className='absolute w-full h-full z-[3] bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center'>
             <div className='absolute w-full h-full z-[4]' onClick={() => setViewDeleteModal(false)}></div>
-            <div style={{ backgroundColor: `${theme.backgroundColor}`, color: `${theme.textColor}` }} className='px-16 w-1/2 z-[5] h-3/5 py-10 flex flex-col items-center justify-start'>
+            <div style={{ backgroundColor: `${theme.backgroundColor}`, color: `${theme.textColor}` }} className='px-16 rounded w-1/2 z-[5] h-3/5 py-10 flex flex-col items-center justify-start'>
                 <span className='my-3 font-bold text-2xl'>Delete your account</span>
                 <div className='flex w-7/12 items-center border border-slate-300 h-20 rounded justify-between'>
                     <div className='bg-red-300  h-full flex items-center justify-center w-2/12'>
