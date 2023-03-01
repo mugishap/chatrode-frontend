@@ -56,7 +56,7 @@ const CommonComponent: React.FC<{ children: ReactNode }> = ({ children }) => {
     <div style={{ color: `${theme.color}`, backgroundColor: `${theme.sidebarBackgroundColor}` }} className="relative min-h-screen max-w-screen flex flex-row justify-between">
       <div style={{ backgroundColor: `${theme.backgroundColor}` }} className=' w-full flex items-center justify-between'>
         <Sidebar setActive={setActive} active={active} sideBarLinks={sideBarLinks} />
-        <div style={{ backgroundColor: `${theme.chatColor}`,color:`${theme.iconColor}` }} className="w-3/12 h-full flex flex-col items-center">{children}</div>
+        <Slide direction="down" style={{ backgroundColor: `${theme.chatColor}`, color: `${theme.iconColor}` }} className="w-3/12 h-full flex flex-col items-center">{children}</Slide>
         <MainComponent />
       </div>
     </div>

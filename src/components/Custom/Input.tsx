@@ -20,7 +20,7 @@ const Input: React.FC<Props> = ({ input, value, onChange }): ReactElement => {
                 {
                     (window.location.pathname === "/auth/login" && input.name == "password")
                     &&
-                    (<Link className='font-bold text-cr-purple' to={"/auth/forgot-password"}>
+                    (<Link className='font-bold text-sm text-cr-purple' to={"/auth/forgot-password"}>
                         Forgot Password ?
                     </Link>)
                 }

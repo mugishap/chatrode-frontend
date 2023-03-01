@@ -1,13 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import CustomConfetti from '../../../components/Custom/CustomConfetti'
 
 const PasswordResetSuccess = () => {
     return (
         <div className="w-full">
-            <main className="w-full     flex items-center justify-center flex-col pt-12 pb-16">
+            <CustomConfetti />
+            <section className="w-full     flex items-center justify-center flex-col pt-12 pb-16">
                 <section className="relative flex flex-col">
                     <div className="text-[#263048] text-[200px] font-bold z-50 px-6">
-                        SUCESS
+                        SUCCESS
                     </div>
                     <div className="absolute bg-cr-purple bottom-12 h-[30%] w-full"></div>
                 </section>
@@ -20,7 +22,7 @@ const PasswordResetSuccess = () => {
                         Login
                     </button>
                 </Link>
-            </main>
+            </section>
         </div>
     )
 }

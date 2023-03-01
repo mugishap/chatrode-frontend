@@ -27,7 +27,7 @@ const Pages = () => {
   const { theme } = useContext(CommonContext)
   const userSlice = useSelector((state: any) => state.user);
   const user: User = userSlice.user;
-  const token: User = userSlice.token;
+  const token: string = userSlice.token;
 
   return (
     <Suspense
@@ -46,11 +46,11 @@ const Pages = () => {
             <Route path='/contacts' element={token ? <Contacts /> : <Navigate to={"/auth/login"} />}></Route>
             <Route path='/settings' element={token ? <Settings /> : <Navigate to={"/auth/login"} />}></Route>
             <Route path='/profile' element={token ? <Profile /> : <Navigate to={"/auth/login"} />}></Route>
-            <Route path='/auth/register' element={<Signup />}></Route>
-            <Route path='/auth/login' element={<Login />}></Route>
+            <Route path='/auth/register' element={token ? <Navigate to={"/profile"} /> : <Signup />}></Route>
+            <Route path='/auth/login' element={token ? <Navigate to={"/profile"} /> : <Login />}></Route>
             <Route path='/auth/forgot-password' element={<ForgotPassword />}></Route>
             <Route path='/auth/reset-password/:passwordResetToken' element={<ResetPassword />}></Route>
-            <Route path='/auth/reset-password/sucess' element={<PasswordResetSuccess />}></Route>
+            <Route path='/auth/reset-password/success' element={<PasswordResetSuccess />}></Route>
             <Route path='/auth/forgot-password-pending' element={<ForgotPasswordPending />}></Route>
             <Route path='/auth/verify-email/:verificationToken' element={token ? <VerifyAccount /> : <Navigate to={"/auth/login"} />}></Route>
             <Route path='/error' element={<InternalServerError />}></Route>

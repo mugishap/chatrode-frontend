@@ -18,8 +18,7 @@ export const useLogin = async (
     dispatch(setToken(response.data.token));
     localStorage.setItem("access_token", response.data.token);
     toast.success("Logged in successfully!");
-    console.log(response);
-    window.location.replace("/profile")
+    window.location.replace("/")
   } catch (error: any) {
     console.log(error);
     toast.error(error.response.data.message);
@@ -45,13 +44,12 @@ export const useSignup = async (
       ...user
     });
     const response = await request.data;
-    console.log(response);
     dispatch(login({ ...response.data.user }));
     dispatch(setVerification({ ...response.data.verification }));
-    dispatch(setVerification({ ...response.data.verification }));
+    dispatch(setToken({ ...response.data.token }));
     localStorage.setItem("access_token", response.data.token)
     toast.success("Account created successfully!");
-    window.location.replace("/")
+    window.location.replace("/profile")
   } catch (error: any) {
     toast.error(`${error.response.data.message}`);
     console.log(error);
@@ -105,15 +103,19 @@ export const deleteUserByAdmin = async (
 };
 
 
-export const useVerifyEmail = async (verificationToken: string, setLoading: Function) => {
+export const useVerifyEmail = async (verificationToken: string, dispatch: Dispatch, setLoading: Function, setError: Function) => {
   try {
     const request = await api.post("/auth/verify-email", { verificationToken });
     const response = request.data;
     if (!response.success) toast.error(response.mesage)
+    toast.success("Email verified successfully")
+    dispatch(login({ ...response.data.user }))
+    dispatch(setVerification({ ...response.data.verification }))
     return response;
   } catch (error: any) {
     console.log(error);
-    toast.error(error.message)
+    toast.error(error.response.data.message)
+    setError(true)
   }
   finally {
     setLoading(false)
@@ -135,12 +137,11 @@ export const useForgotPassword = async (email: string) => {
 
 export const useResetPassword = async (token: string, password: string) => {
   try {
-    console.log(token);
     const request = await api.post("/auth/reset-password", { passwordResetToken: token, password })
     const response = request.data
     if (!response.success) toast.error(response.mesage)
     toast.success("Password reset successfully")
-    window.location.replace("/auth/reset-password/sucess")
+    window.location.replace("/auth/reset-password/success")
   } catch (error: any) {
     console.log(error)
     toast.error(error.response.data.message)
@@ -175,7 +176,6 @@ export const useUpdateAvatar = async (imageUrl: string, dispatch: Dispatch, setU
   try {
     const request = await api.post("/user/update-avatar", { avatar: imageUrl })
     const response = request.data
-    console.log(response)
     if (response.success) toast.success("Profile Image updated successfully")
     dispatch(login({ ...response.data.user }));
     dispatch(setVerification({ ...response.data.verification }));
@@ -195,11 +195,11 @@ export const useUpdateUser = async (editedUser: any, dispatch: Dispatch, setLoad
     const request = await api.put("/user/update", { ...editedUser })
     const response = request.data
     if (!response.success) toast.error(response.message)
-    console.log(response);
     dispatch(login({ ...response.data.user }));
     dispatch(setVerification({ ...response.data.verification }));
     dispatch(setVerification({ ...response.data.verification }));
     toast.success("Profile updated successfully")
+    if (!response.data.verification.verified) toast.warn("Remember to verify your account please!!")
     setEditMode(false)
     setViewMore(false)
   } catch (error: any) {
@@ -234,7 +234,7 @@ export const useInitiateEmailVerification = async (setVerificationLoading: Funct
     const request = await api.get("/auth/initiate-email-verification")
     const response = request.data
     if (!response.success) toast.error(response.message)
-    toast.success("Check you email for verification link!!!")
+    toast.success("Check your email for verification link!!!")
   } catch (error: any) {
     console.log(error);
     toast.error(error.response.data.mesage)

@@ -11,6 +11,7 @@ import { logout } from '../../redux/slices/userSlice'
 import { FormInput, User, Verification } from '../../types'
 import { checkFileType } from '../../utils/file'
 import Input from '../Custom/Input'
+import { format } from 'date-fns'
 
 const ProfileComponent = () => {
     const { theme, currentTheme, setDeleteModal } = useContext(CommonContext)
@@ -112,21 +113,18 @@ const ProfileComponent = () => {
                                 </>
                         }
                         </span>
-                        {!verification.verified && (<span className='my-1 px-3 hover:bg-slate-300 flex items-center cursor-pointer justify-start rounded py-2 ' onClick={verifyEmail}> {
-                            verificationLoading
-                                ?
-                                <BiLoaderAlt className='animate-spin mr-2' size={20} />
-                                :
-                                <RiCheckLine className='mr-2' size={20} />
-                        }
-                            Verify Account</span>)}
+                        {!verification.verified && (
+                            <button disabled={verificationLoading} className='my-1 px-3 hover:bg-slate-300 flex items-center cursor-pointer justify-start rounded py-2 ' onClick={verifyEmail}>
+                                {verificationLoading ? <BiLoaderAlt className='animate-spin mr-2' size={20} /> : <RiCheckLine className='mr-2' size={20} />}
+                                Verify Account
+                            </button>
+                        )}
                         <span className='my-1 px-3 hover:bg-slate-300 flex items-center cursor-pointer rounded py-2 ' onClick={updatePassword}> <RiLock2Line className='mr-2' size={20} /> Update Password</span>
                         <span className='my-1 px-3 hover:bg-slate-300 flex items-center cursor-pointer  rounded py-2 ' onClick={logUserOut}> <RiLogoutBoxLine className='mr-2' size={20} /> Logout</span>
                         <span className='my-1 px-3 cursor-pointer hover:bg-slate-300 flex items-center rounded py-2 text-red-600' onClick={() => setDeleteModal(true)}> <BiTrash className='mr-2' size={20} /> Delete Account</span>
                     </div>
-                </Fade>)
-
-            }
+                </Fade>
+                )}
 
             <div className='w-full flex justify-between items-center'>
                 <span className='font-bold text-xl'>My Profile</span>
@@ -143,11 +141,11 @@ const ProfileComponent = () => {
                 <label htmlFor='updateAvatarID' title='Update Avatar' className='relative cursor-pointer mb-4'>
                     <div onMouseEnter={() => {
                         const elt = document.querySelector(".camera") as HTMLElement
-                        elt.classList.replace("hidden", "flex")
+                        elt?.classList.replace("hidden", "flex")
                     }}
                         onMouseLeave={() => {
                             const elt = document.querySelector(".camera") as HTMLElement
-                            elt.classList.replace("flex", "hidden")
+                            elt?.classList.replace("flex", "hidden")
                         }}
                         className={`w-full h-full flex items-center justify-center ${updateAvatarLoading ? "bg-black/70 " : " hover:bg-black/60 "} absolute rounded-full`}>
                         {
@@ -216,6 +214,14 @@ const ProfileComponent = () => {
                                     <span className='font-bold'>Email</span>
                                     <span className='text-lg'>{user.email}</span>
                                 </div>
+                                {
+                                    verification.verified && (
+                                        <div className='flex my-2 flex-col items-start justify-start'>
+                                            <span className='font-bold'>Email verified at</span>
+                                            <span className='text-lg'>{format(parseInt(verification.verifiedAt as string), "HH:mm, MMMM do yyyy", {})}</span>
+                                        </div>
+                                    )
+                                }
                                 <span title='Click on the dots in the top right corner of this middle section to verify your account' className='text-lg italic mt-6 text-red-400'>{!verification.verified && "Email unverified"}</span>
                             </section>
                     }
