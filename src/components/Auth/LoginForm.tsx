@@ -18,7 +18,6 @@ const LoginForm: React.FC<Props> = ({ inputs }) => {
         email: "",
         password: "",
     })
-    const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
 
     const dispatch = useDispatch()
@@ -26,18 +25,12 @@ const LoginForm: React.FC<Props> = ({ inputs }) => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (!loginData.email || !loginData.password) return toast.error("Please fill all the fields")
-        console.log(loginData);
         useLogin(
             { email: loginData.email, password: loginData.password },
-            setError,
             dispatch,
             setLoading
         );
     }
-
-    useEffect(() => {
-        if (error.length) toast.error(error)
-    }, [error])
 
     return (
         <div className={`w-full flex flex-col bg-[#fff] rounded justify-center items-center p-6`}>

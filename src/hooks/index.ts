@@ -1,11 +1,11 @@
 import { api } from "../api";
-import { login } from "../redux/slices/userSlice";
+import { login, logout, setToken, setVerification } from "../redux/slices/userSlice";
 import { toast } from "react-toastify";
 import { Dispatch } from "@reduxjs/toolkit";
+import { wait } from "../utils/wait";
 
 export const useLogin = async (
   user: { email: string; password: string },
-  setError: any,
   dispatch: any,
   setLoading: any
 ) => {
@@ -13,13 +13,16 @@ export const useLogin = async (
     setLoading(true);
     const request = await api.post("/auth/login", user);
     const response = request.data;
-    window.location.reload();
     dispatch(login({ ...response.data.user }));
+    dispatch(setVerification({ ...response.data.verification }));
+    dispatch(setToken(response.data.token));
     localStorage.setItem("access_token", response.data.token);
     toast.success("Logged in successfully!");
-    window.location.replace("/")
+    console.log(response);
+    window.location.replace("/profile")
   } catch (error: any) {
-    setError(error.response.data.message);
+    console.log(error);
+    toast.error(error.response.data.message);
   } finally {
     setLoading(false);
   }
@@ -33,7 +36,6 @@ export const useSignup = async (
     email?: string;
     password?: string;
   },
-  setError: any,
   dispatch: any,
   setLoading: any
 ) => {
@@ -45,11 +47,13 @@ export const useSignup = async (
     const response = await request.data;
     console.log(response);
     dispatch(login({ ...response.data.user }));
+    dispatch(setVerification({ ...response.data.verification }));
+    dispatch(setVerification({ ...response.data.verification }));
     localStorage.setItem("access_token", response.data.token)
     toast.success("Account created successfully!");
     window.location.replace("/")
   } catch (error: any) {
-    setError(`${error.response.data.message}`);
+    toast.error(`${error.response.data.message}`);
     console.log(error);
   } finally {
     setLoading(false);
@@ -159,6 +163,7 @@ export const uploadImage = async (image: string, setUpdateAvatarLoading: Functio
     return urlData.secure_url;
   } catch (error: any) {
     console.log(error);
+    if (error.includes("Failed to fetch")) return toast.error('Check you internet connection')
     toast.error(error.response.data.mesage)
     return
   }
@@ -172,7 +177,9 @@ export const useUpdateAvatar = async (imageUrl: string, dispatch: Dispatch, setU
     const response = request.data
     console.log(response)
     if (response.success) toast.success("Profile Image updated successfully")
-    dispatch(login({ ...response.data.user }))
+    dispatch(login({ ...response.data.user }));
+    dispatch(setVerification({ ...response.data.verification }));
+    dispatch(setVerification({ ...response.data.verification }));
   } catch (error: any) {
     console.log(error);
     toast.error(error.response.data.mesage)
@@ -189,7 +196,9 @@ export const useUpdateUser = async (editedUser: any, dispatch: Dispatch, setLoad
     const response = request.data
     if (!response.success) toast.error(response.message)
     console.log(response);
-    dispatch(login({ ...response.data.user }))
+    dispatch(login({ ...response.data.user }));
+    dispatch(setVerification({ ...response.data.verification }));
+    dispatch(setVerification({ ...response.data.verification }));
     toast.success("Profile updated successfully")
     setEditMode(false)
     setViewMore(false)
@@ -202,14 +211,35 @@ export const useUpdateUser = async (editedUser: any, dispatch: Dispatch, setLoad
   }
 }
 
-export const useDeleteAccount = async (password: string) => {
+export const useDeleteAccount = async (password: string, dispatch: Dispatch, setLoading: Function) => {
   try {
-const request = await 
-  } catch (error:any) {
+    const request = await api.post("/user/delete", { password })
+    const response = request.data
+    if (!response.success) toast.error(response.message)
+    dispatch(logout())
+    toast.success("Account deleted successfully")
+    wait(2000)
+    window.location.replace("/auth/register")
+  } catch (error: any) {
+    console.log(error);
+    toast.error(error.response.data.message)
+  }
+  finally {
+    setLoading(false)
+  }
+}
+
+export const useInitiateEmailVerification = async (setVerificationLoading: Function) => {
+  try {
+    const request = await api.get("/auth/initiate-email-verification")
+    const response = request.data
+    if (!response.success) toast.error(response.message)
+    toast.success("Check you email for verification link!!!")
+  } catch (error: any) {
     console.log(error);
     toast.error(error.response.data.mesage)
   }
   finally {
-    setLoading(false)
+    setVerificationLoading(false)
   }
 }

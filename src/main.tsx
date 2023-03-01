@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 import { persistor, store } from './redux/store'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <PersistGate persistor={persistor} loading={null}>
+  <PersistGate persistor={persistor} loading={<div>loading</div>}>
     <Provider store={store}>
       <App />
     </Provider>

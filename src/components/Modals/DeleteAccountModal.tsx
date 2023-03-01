@@ -1,7 +1,9 @@
 import React, { FormEvent, useState } from 'react'
 import { BiLoaderAlt } from 'react-icons/bi'
 import { RiAlertLine, RiLock2Line } from 'react-icons/ri'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { useDeleteAccount } from '../../hooks'
 import { FormInput, ThemeType } from '../../types'
 import Input from '../Custom/Input'
 
@@ -16,9 +18,12 @@ const DeleteAccountModal: React.FC<Props> = ({ theme, viewDeleteModal, setViewDe
     const [password, setPassword] = useState("")
     const [loading, setLoading] = useState(false)
 
+    const dispatch = useDispatch()
+
     const handleDeleteAccount = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        useDeleteAccount(password) // TODO -> implement delete account hook
+        setLoading(true)
+        useDeleteAccount(password, dispatch, setLoading)
     }
 
     const input: FormInput = {

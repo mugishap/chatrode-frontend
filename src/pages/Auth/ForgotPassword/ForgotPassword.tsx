@@ -1,5 +1,6 @@
 import React, { FormEvent, useEffect, useState } from 'react'
 import { RiMailAddLine } from 'react-icons/ri';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Input from '../../../components/Custom/Input';
 import { useForgotPassword } from '../../../hooks';
@@ -46,11 +47,27 @@ const ForgotPassword = () => {
                     <form className='w-full flex flex-col items-center rounded' onSubmit={handleSubmit}>
                         {
                             inputs.map((input, index) => (
-                                <Input required value={formData['email'] as string} onChange={(e) => { console.log("Changing " + e); setFormData({ ...formData, email: e.target.value }) }} input={input} key={index} />
+                                <Input required value={formData['email'] as string} onChange={(e) => setFormData({ ...formData, email: e.target.value })} input={input} key={index} />
                             ))
                         }
                         <button type="submit" className='text-white mt-4 bg-cr-purple w-fit px-3 py-2.5 rounded cursor-pointer'>Send Verification Email</button>
                     </form>
+                    <span className='mt-4'>
+                        <span>
+                            No longer need to reset password? &nbsp;
+                        </span>
+                        <Link className='font-bold text-cr-purple' to={"/auth/login"}>
+                            Login
+                        </Link>
+                    </span>
+                    <span className='mt-2'>
+                        <span>
+                            or create &nbsp;
+                        </span>
+                        <Link className='font-bold text-cr-purple' to={"/auth/register"}>
+                            New account
+                        </Link>
+                    </span>
                 </div>
             </div>
         </div>

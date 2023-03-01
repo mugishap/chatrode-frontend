@@ -18,13 +18,11 @@ const Input: React.FC<Props> = ({ input, value, onChange }): ReactElement => {
             <div className='my-1 w-full flex items-center justify-between'>
                 <span className={``}>{input.label}</span>
                 {
-                    window.location.pathname === "/auth/login" && input.name == "password"
-                        ?
-                        <Link className='font-bold text-cr-purple' to={"/auth/forgot-password"}>
-                            Forgot Password ?
-                        </Link>
-                        :
-                        null
+                    (window.location.pathname === "/auth/login" && input.name == "password")
+                    &&
+                    (<Link className='font-bold text-cr-purple' to={"/auth/forgot-password"}>
+                        Forgot Password ?
+                    </Link>)
                 }
             </div>
             <div style={{ backgroundColor: `${theme.addons}` }} className='border border-slate-300 w-full rounded-l rounded flex'>

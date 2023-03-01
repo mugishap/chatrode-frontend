@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { User } from "../../types";
+import { User, Verification } from "../../types";
 
 const user: User = {
   _id: "",
@@ -17,17 +17,30 @@ const user: User = {
   verification: ""
 };
 
+const verification: Verification = {
+  user: "",
+  verified: false,
+  verifiedAt: "",
+}
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
     user,
     isLoggedIn: false,
-    token: null
+    token: null,
+    verification
   },
   reducers: {
     login: (state, { payload }) => {
       state.user = { ...payload };
       state.isLoggedIn = true
+    },
+    setVerification: (state, { payload }) => {
+      state.verification = { ...payload };
+    },
+    setToken: (state, { payload }) => {
+      state.token = payload;
     },
     logout: (state) => {
       state.user = {
@@ -37,6 +50,7 @@ const userSlice = createSlice({
         username: "",
       };
       state.isLoggedIn = false
+      localStorage.clear()
     },
     update: (state, { payload }) => {
       state.user = { ...payload };
@@ -44,6 +58,6 @@ const userSlice = createSlice({
   }
 });
 
-export const { login, logout, update } = userSlice.actions;
+export const { login, logout, update, setVerification, setToken } = userSlice.actions;
 
 export default userSlice.reducer;

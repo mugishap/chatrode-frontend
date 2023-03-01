@@ -26,7 +26,7 @@ const DirectMessages = () => {
 
   return (
     <div className='w-full flex pt-8 flex-col'>
-      <div className='w-full shadow-lg shadow-slate-300 px-4 h-fit'>
+      <div className='w-full px-4 h-fit'>
         <span className='font-bold text-xl'>Direct Messages</span>
         <Search />
       </div>

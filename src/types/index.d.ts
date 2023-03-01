@@ -1,7 +1,7 @@
 import IcontType from "react-icons/lib/cjs/iconBase.d.ts"
 
 export interface User {
-    active: boolean
+    active?: boolean
     avatar?: string
     role?: string
     _id: string,
@@ -63,4 +63,10 @@ export interface SidebarLinks {
     exact: boolean,
     admin: boolean,
     name: string
+}
+
+export interface Verification {
+    user?: string,
+    verified?: boolean,
+    verifiedAt?: string
 }

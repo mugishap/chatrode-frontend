@@ -43,13 +43,7 @@ function App() {
       }}
     >
       <div className="font-lato min-h-screen w-screen flex flex-col">
-        {
-          deleteModal
-            ?
-            <DeleteAccountModal viewDeleteModal={deleteModal} setViewDeleteModal={setDeleteModal} theme={theme[currentTheme]} />
-            :
-            null
-        }
+        {deleteModal && <DeleteAccountModal viewDeleteModal={deleteModal} setViewDeleteModal={setDeleteModal} theme={theme[currentTheme]} />}
         <ToastContainer theme='colored' position='top-center' hideProgressBar={true} />
         <Pages />
       </div>

@@ -1,22 +1,24 @@
-import React, { FormEvent, useContext, useState } from 'react'
+import React, { FormEvent, useContext, useEffect, useState } from 'react'
 import { Fade } from 'react-awesome-reveal'
 import { BiEdit, BiLoader, BiLoaderAlt, BiTrash } from 'react-icons/bi'
-import { RiCamera2Line, RiCamera3Fill, RiCloseLine, RiDeleteBackLine, RiEdit2Line, RiLoader2Line, RiMailLine, RiMore2Fill, RiUser2Line } from 'react-icons/ri'
+import { RiCamera2Line, RiCamera3Fill, RiCheckLine, RiCloseLine, RiDeleteBackLine, RiEdit2Line, RiLoader2Line, RiLock2Line, RiLogoutBoxLine, RiMailLine, RiMore2Fill, RiUser2Line } from 'react-icons/ri'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { CommonContext } from '../../context'
-import { uploadImage, useUpdateAvatar, useUpdateUser } from '../../hooks'
-import { FormInput, User } from '../../types'
+import { uploadImage, useInitiateEmailVerification, useUpdateAvatar, useUpdateUser } from '../../hooks'
+import { logout } from '../../redux/slices/userSlice'
+import { FormInput, User, Verification } from '../../types'
+import { checkFileType } from '../../utils/file'
 import Input from '../Custom/Input'
 
 const ProfileComponent = () => {
     const { theme, currentTheme, setDeleteModal } = useContext(CommonContext)
     const user: User = useSelector((state: any) => state.user.user)
-
+    const verification: Verification = useSelector((state: any) => state.user.verification)
+    const navigate = useNavigate()
     const [viewMore, setViewMore] = useState(false)
     const [editMode, setEditMode] = useState(false)
-    const [imageString, setImageString] = useState("")
     const [loading, setLoading] = useState(false)
     const [updateAvatarLoading, setUpdateAvatarLoading] = useState(false)
     const [editUser, setEditUser] = useState({
@@ -24,7 +26,7 @@ const ProfileComponent = () => {
         username: user.username,
         email: user.email
     })
-
+    const [verificationLoading, setVerificationLoading] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -60,18 +62,13 @@ const ProfileComponent = () => {
     const updateAvatar = async () => {
         toast.warn("Please wait while your avatar is uploading")
         setUpdateAvatarLoading(true)
-        console.log("Hellooo");
         const element = document.querySelector("#updateAvatarID") as HTMLInputElement
-        console.log(element);
         const reader = new FileReader()
-        const file = element.files ? element.files[0] : null
+        const file: File | null = element.files && element.files[0]
+        if (!checkFileType("updateAvatarID")) return toast.error("Only png and jpeg images are allowed")
+        if (!file) return toast.error("Oops you image failed to upload try again!")
         reader.addEventListener('loadend', async () => {
-            const image = document.querySelector(".avatar") as HTMLImageElement
-            image.src = reader.result as string
-            console.log(reader.result);
-            setImageString(reader.result as string)
-            const imageUrl = await uploadImage(imageString, setUpdateAvatarLoading)
-            console.log(imageUrl);
+            const imageUrl = await uploadImage(reader.result as string, setUpdateAvatarLoading)
             useUpdateAvatar(imageUrl, dispatch, setUpdateAvatarLoading)
         })
         reader.readAsDataURL(file as File)
@@ -80,30 +77,55 @@ const ProfileComponent = () => {
         e.preventDefault()
         useUpdateUser(editUser, dispatch, setLoading, setEditMode, setViewMore)
     }
+    const updatePassword = async () => {
+        window.location.replace("/auth/forgot-password")
+    }
+    const verifyEmail = () => {
+        setVerificationLoading(true)
+        useInitiateEmailVerification(setVerificationLoading)
+    }
+
+    const logUserOut = () => {
+        dispatch(logout())
+        window.location.replace("/auth/login")
+    }
+
+    useEffect(() => {
+        document.title = "Profile | Chat Rode"
+    }, [])
+
     return (
         <div className='w-full relative flex flex-col items-start px-6 pt-6 justify-start'>
             {
-                viewMore
-                    ?
-                    <Fade>
-                        <div className={`top-14 z-[4] -right-36 text-base absolute rounded flex flex-col p-3 shadow-lg shadow-slate-500 ${currentTheme === "dark" ? "bg-slate-500 text-white" : "bg-white text-slate-600"}`}>
-                            <span className="my-1 px-3 py-2 cursor-pointer flex items-center justify-start hover:bg-slate-200 rounded" onClick={() => setEditMode(!editMode)}>{
-                                editMode
-                                    ?
-                                    <>
-                                        <BiEdit className='mr-2 text-cr-purple' size={20} />Leave Edit
-                                    </>
-                                    :
-                                    <>
-                                        <BiEdit className='mr-2 text-cr-purple' size={20} />Edit
-                                    </>
-                            }
-                            </span>
-                            <span className='my-1 px-3 hover:bg-slate-300 flex items-center justify-center rounded py-2 text-red-600' onClick={() => setDeleteModal(true)}> <BiTrash className='mr-2' size={20} /> Delete Account</span>
-                        </div>
-                    </Fade>
-                    :
-                    null
+                viewMore &&
+                (<Fade>
+                    <div className={`top-14 z-[4] -right-36 text-base absolute rounded flex flex-col p-3 shadow-lg shadow-slate-500 ${currentTheme === "dark" ? "bg-slate-500 text-white" : "bg-white text-slate-600"}`}>
+                        <span className="my-1 px-3 py-2 cursor-pointer flex items-center justify-start hover:bg-slate-200 rounded" onClick={() => setEditMode(!editMode)}>{
+                            editMode
+                                ?
+                                <>
+                                    <BiEdit className='mr-2 text-cr-purple' size={20} />Leave Edit
+                                </>
+                                :
+                                <>
+                                    <BiEdit className='mr-2 text-cr-purple' size={20} />Edit
+                                </>
+                        }
+                        </span>
+                        {!verification.verified && (<span className='my-1 px-3 hover:bg-slate-300 flex items-center cursor-pointer justify-start rounded py-2 ' onClick={verifyEmail}> {
+                            verificationLoading
+                                ?
+                                <BiLoaderAlt className='animate-spin mr-2' size={20} />
+                                :
+                                <RiCheckLine className='mr-2' size={20} />
+                        }
+                            Verify Account</span>)}
+                        <span className='my-1 px-3 hover:bg-slate-300 flex items-center cursor-pointer rounded py-2 ' onClick={updatePassword}> <RiLock2Line className='mr-2' size={20} /> Update Password</span>
+                        <span className='my-1 px-3 hover:bg-slate-300 flex items-center cursor-pointer  rounded py-2 ' onClick={logUserOut}> <RiLogoutBoxLine className='mr-2' size={20} /> Logout</span>
+                        <span className='my-1 px-3 cursor-pointer hover:bg-slate-300 flex items-center rounded py-2 text-red-600' onClick={() => setDeleteModal(true)}> <BiTrash className='mr-2' size={20} /> Delete Account</span>
+                    </div>
+                </Fade>)
+
             }
 
             <div className='w-full flex justify-between items-center'>
@@ -137,7 +159,7 @@ const ProfileComponent = () => {
                     </div>
                     <img src={user.avatar} className="w-24 h-24 rounded-full object-cover avatar" loading='lazy' alt="" />
                 </label>
-                <input onChange={() => updateAvatar()} type="file" accept='image/*' id='updateAvatarID' className='hidden' />
+                <input onChange={() => updateAvatar()} type="file" accept='image/jpeg,image/png' id='updateAvatarID' className='hidden' />
                 <span className='font-bold text-xl mt-3'>
                     {user.fullname}
                 </span>
@@ -194,6 +216,7 @@ const ProfileComponent = () => {
                                     <span className='font-bold'>Email</span>
                                     <span className='text-lg'>{user.email}</span>
                                 </div>
+                                <span title='Click on the dots in the top right corner of this middle section to verify your account' className='text-lg italic mt-6 text-red-400'>{!verification.verified && "Email unverified"}</span>
                             </section>
                     }
                 </div>

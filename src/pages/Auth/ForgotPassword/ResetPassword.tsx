@@ -1,9 +1,11 @@
 import React, { FormEvent, useEffect, useState } from 'react'
 import { RiLock2Line, RiMailAddLine } from 'react-icons/ri';
-import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Input from '../../../components/Custom/Input';
 import { useResetPassword } from '../../../hooks';
+import { logout } from '../../../redux/slices/userSlice';
 import { FormInput } from '../../../types';
 import logo from './../../../assets/logo.svg'
 
@@ -24,9 +26,11 @@ const ResetPassword = () => {
       label: "Password"
     }
   ]
+  const dispatch = useDispatch()
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!formData.password) toast.error("Password is required")
+    dispatch(logout())
     useResetPassword(passwordResetToken as string, formData.password)
   }
 
@@ -53,6 +57,22 @@ const ResetPassword = () => {
             }
             <button type="submit" className='text-white mt-4 bg-cr-purple w-fit px-3 py-2.5 rounded cursor-pointer'>Continue</button>
           </form>
+          <span className='mt-4'>
+            <span>
+              No longer need to reset password? &nbsp;
+            </span>
+            <Link className='font-bold text-cr-purple' to={"/auth/login"}>
+              Login
+            </Link>
+          </span>
+          <span className='mt-2'>
+            <span>
+              or create &nbsp;
+            </span>
+            <Link className='font-bold text-cr-purple' to={"/auth/register"}>
+              New account
+            </Link>
+          </span>
         </div>
       </div>
     </div>

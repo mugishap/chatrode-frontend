@@ -23,25 +23,16 @@ const SignupForm: React.FC<Props> = ({ inputs }) => {
     })
 
     const dispatch = useDispatch()
-    const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        console.log(signupData);
         useSignup(
             { ...signupData },
-            setError,
             dispatch,
             setLoading
         );
-        console.log(signupData);
     }
-
-    useEffect(() => {
-        if (error) toast.error(error)
-    }, [error])
-
 
     return (
         <div className={`w-full flex flex-col bg-[#fff] rounded justify-center items-center p-6`}>
