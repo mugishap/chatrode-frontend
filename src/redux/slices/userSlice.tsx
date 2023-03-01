@@ -50,6 +50,7 @@ const userSlice = createSlice({
         username: "",
       };
       state.isLoggedIn = false
+      state.token = null
       localStorage.clear()
     },
     update: (state, { payload }) => {

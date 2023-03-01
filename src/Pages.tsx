@@ -1,6 +1,6 @@
 import React, { Suspense, useContext, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import Dashboard from './admin/Dashboard/Dashboard'
 import Settings from './admin/Settings/Settings'
 import Users from './admin/Users/Users'
@@ -27,6 +27,7 @@ const Pages = () => {
   const { theme } = useContext(CommonContext)
   const userSlice = useSelector((state: any) => state.user);
   const user: User = userSlice.user;
+  const token: User = userSlice.token;
 
   return (
     <Suspense
@@ -39,19 +40,19 @@ const Pages = () => {
       <div style={{ backgroundColor: `${theme.backgroundColor}`, color: `${theme.textColor}` }} className={`w-screen min-h-screen flex flex-col`}>
         <BrowserRouter>
           <Routes>
-            <Route path='/' element={<Home />}></Route>
-            <Route path='/chat' element={<Chat />}></Route>
-            <Route path='/groups' element={<Groups />}></Route>
-            <Route path='/contacts' element={<Contacts />}></Route>
-            <Route path='/settings' element={<Settings />}></Route>
-            <Route path='/profile' element={<Profile />}></Route>
+            <Route path='/' element={token ? <Home /> : <Navigate to={"/auth/login"} />}></Route>
+            <Route path='/chat' element={token ? <Chat /> : <Navigate to={"/auth/login"} />}></Route>
+            <Route path='/groups' element={token ? <Groups /> : <Navigate to={"/auth/login"} />}></Route>
+            <Route path='/contacts' element={token ? <Contacts /> : <Navigate to={"/auth/login"} />}></Route>
+            <Route path='/settings' element={token ? <Settings /> : <Navigate to={"/auth/login"} />}></Route>
+            <Route path='/profile' element={token ? <Profile /> : <Navigate to={"/auth/login"} />}></Route>
             <Route path='/auth/register' element={<Signup />}></Route>
             <Route path='/auth/login' element={<Login />}></Route>
             <Route path='/auth/forgot-password' element={<ForgotPassword />}></Route>
             <Route path='/auth/reset-password/:passwordResetToken' element={<ResetPassword />}></Route>
             <Route path='/auth/reset-password/sucess' element={<PasswordResetSuccess />}></Route>
             <Route path='/auth/forgot-password-pending' element={<ForgotPasswordPending />}></Route>
-            <Route path='/auth/verify-email/:verificationToken' element={<VerifyAccount />}></Route>
+            <Route path='/auth/verify-email/:verificationToken' element={token ? <VerifyAccount /> : <Navigate to={"/auth/login"} />}></Route>
             <Route path='/error' element={<InternalServerError />}></Route>
             <Route path='/terms' element={<Terms />}></Route>
             {userSlice.isLoggedIn && user.role == "admin" && (
