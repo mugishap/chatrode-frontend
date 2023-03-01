@@ -55,6 +55,12 @@ git clone https://github.com/mugishap/chatrode-frontend
 npm install
 ```
 
+To build you own docker image
+
+```
+docker build -t <your-docker-image-name> .
+```
+
 ## 🎈 Usage <a name="usage"></a>
 
 Signup and everything else will be straight forward
