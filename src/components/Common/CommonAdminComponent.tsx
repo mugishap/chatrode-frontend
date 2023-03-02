@@ -1,11 +1,9 @@
 import React, { ReactNode, useContext, useEffect, useState } from "react";
-import { Slide } from "react-awesome-reveal";
 import { BiLoaderAlt } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import { CommonContext } from "../../context";
 import { useGetAllUsers } from "../../hooks";
 import Navbar from "../Admin/Navbar";
-import MainComponent from "../Chat/Main/MainComponent";
 import Sidebar from "../Chat/Sidebar/Sidebar";
 
 

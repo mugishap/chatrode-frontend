@@ -1,3 +1,4 @@
+import { createTheme } from "@mui/material/styles";
 import { Theme } from "../types";
 
 const theme: Theme = {
@@ -21,5 +22,15 @@ const theme: Theme = {
     iconColor:"#f8f6ff"
   },
 };
+
+export const MuiTheme = createTheme({
+  typography: {
+   "fontFamily": `"Lato", sans-serif`,
+   "fontSize": 16,
+   "fontWeightLight": 300,
+   "fontWeightRegular": 400,
+   "fontWeightMedium": 500
+  }
+});
 
 export default theme;

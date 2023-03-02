@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { RiGroupLine, RiHome3Line, RiMessage3Line } from 'react-icons/ri'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { CommonContext } from '../../context'
 
 const AdminHomeComponent = () => {
@@ -11,17 +12,20 @@ const AdminHomeComponent = () => {
     {
       name: "Users",
       icon: RiGroupLine,
-      count: users.length
+      count: users.length,
+      path: "/admin/users"
     },
     {
       name: "Messages",
       icon: RiGroupLine,
-      count: users.length
+      count: users.length,
+      path: "/admin/messages"
     },
     {
       name: "Rooms",
       icon: RiGroupLine,
-      count: users.length
+      count: users.length,
+      path: "/admin/rooms"
     },
   ]
   return (
@@ -32,7 +36,7 @@ const AdminHomeComponent = () => {
       <div className='w-full flex items-center justify-start'>
         {
           stats.map((data, index) => (
-            <div className={`rounded w-48 mx-6 p-4 flex flex-col ${currentTheme === "light" ? "bg-white shadow-lg shadow-slate-200" : "bg-slate-400"}`}>
+            <Link to={data.path} key={index} className={`rounded w-2/12 mx-6 p-4 flex flex-col ${currentTheme === "light" ? "bg-white shadow-lg shadow-slate-200" : "bg-slate-400"}`}>
               <span className='flex items-center text-xl'>
                 <data.icon className='mr-2' />
                 <span className='font-medium'>{data.name}</span>
@@ -40,13 +44,10 @@ const AdminHomeComponent = () => {
               <span className='mt-4 font-bold text-2xl'>
                 {data.count}
               </span>
-            </div>
+            </Link>
           ))
         }
       </div>
-
-
-
     </div>
   )
 }

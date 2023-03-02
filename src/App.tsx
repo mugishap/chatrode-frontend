@@ -1,13 +1,13 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import './App.css'
 import Pages from './Pages'
 import { CommonContext } from './context'
 import { User } from './types'
-import theme from './theme/theme'
+import theme, { MuiTheme } from './theme/theme'
 import { ToastContainer } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css";
 import DeleteAccountModal from './components/Modals/DeleteAccountModal'
+import { ThemeProvider } from '@mui/material/styles'
 
 
 function App() {
@@ -46,7 +46,9 @@ function App() {
       <div className="font-lato min-h-screen w-screen flex flex-col">
         {deleteModal && <DeleteAccountModal viewDeleteModal={deleteModal} setViewDeleteModal={setDeleteModal} theme={theme[currentTheme]} />}
         <ToastContainer theme='colored' position='top-center' hideProgressBar={true} />
-        <Pages />
+        <ThemeProvider theme={MuiTheme}>
+          <Pages />
+        </ThemeProvider>
       </div>
     </CommonContext.Provider>
   )

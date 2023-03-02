@@ -22,6 +22,8 @@ import Dashboard from './pages/Admin/Dashboard'
 import UserPage from './pages/Admin/Users/UserPage'
 import { User } from './types'
 import Settings from './pages/Settings/Settings'
+import Messages from './pages/Admin/Messages/Messages'
+import Rooms from './pages/Admin/Rooms/Rooms'
 
 const Pages = () => {
 
@@ -66,6 +68,8 @@ const Pages = () => {
                 <Route path='/admin' element={<Dashboard />}></Route>
                 <Route path='/admin/users' element={<Users />}></Route>
                 <Route path='/admin/user/:userId' element={<UserPage />}></Route>
+                <Route path='/admin/messages' element={<Messages />}></Route>
+                <Route path='/admin/rooms' element={<Rooms />}></Route>
               </>)}
             <Route path='*' element={<PageNotfound />}></Route>
           </Routes>

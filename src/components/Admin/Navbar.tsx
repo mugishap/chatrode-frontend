@@ -14,6 +14,16 @@ const Navbar = () => {
             path: "/admin/users",
             label: "Users",
             exact: true,
+        },
+        {
+            path: "/admin/messages",
+            label: "Messages",
+            exact: true,
+        },
+        {
+            path: "/admin/rooms",
+            label: "Rooms",
+            exact: true,
         }
     ]
     return (
