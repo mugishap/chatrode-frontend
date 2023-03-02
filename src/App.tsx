@@ -40,6 +40,7 @@ function App() {
         deleteModal,
         setCurrentTheme,
         theme: theme[currentTheme],
+
       }}
     >
       <div className="font-lato min-h-screen w-screen flex flex-col">

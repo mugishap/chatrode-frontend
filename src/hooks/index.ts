@@ -1,5 +1,5 @@
 import { api } from "../api";
-import { login, logout, setToken, setVerification } from "../redux/slices/userSlice";
+import { login, logout, setToken, setUsers, setVerification } from "../redux/slices/userSlice";
 import { toast } from "react-toastify";
 import { Dispatch } from "@reduxjs/toolkit";
 import { wait } from "../utils/wait";
@@ -107,7 +107,7 @@ export const useVerifyEmail = async (verificationToken: string, dispatch: Dispat
   try {
     const request = await api.post("/auth/verify-email", { verificationToken });
     const response = request.data;
-    if (!response.success) toast.error(response.mesage)
+    if (!response.success) toast.error(response.message)
     toast.success("Email verified successfully")
     dispatch(login({ ...response.data.user }))
     dispatch(setVerification({ ...response.data.verification }))
@@ -126,7 +126,7 @@ export const useForgotPassword = async (email: string) => {
   try {
     const request = await api.post("/auth/initiate-password-reset", { email })
     const response = request.data
-    if (!response.success) toast.error(response.mesage)
+    if (!response.success) toast.error(response.message)
     toast.success("Password reset email sent successfully")
     window.location.replace("/auth/forgot-password-pending")
   } catch (error: any) {
@@ -139,7 +139,7 @@ export const useResetPassword = async (token: string, password: string) => {
   try {
     const request = await api.post("/auth/reset-password", { passwordResetToken: token, password })
     const response = request.data
-    if (!response.success) toast.error(response.mesage)
+    if (!response.success) toast.error(response.message)
     toast.success("Password reset successfully")
     window.location.replace("/auth/reset-password/success")
   } catch (error: any) {
@@ -165,7 +165,7 @@ export const uploadImage = async (image: string, setUpdateAvatarLoading: Functio
   } catch (error: any) {
     console.log(error);
     if (error.includes("Failed to fetch")) return toast.error('Check you internet connection')
-    toast.error(error.response.data.mesage)
+    toast.error(error.response.data.message)
     return
   }
   finally {
@@ -182,7 +182,7 @@ export const useUpdateAvatar = async (imageUrl: string, dispatch: Dispatch, setU
     dispatch(setVerification({ ...response.data.verification }));
   } catch (error: any) {
     console.log(error);
-    toast.error(error.response.data.mesage)
+    toast.error(error.response.data.message)
     return
   }
   finally {
@@ -237,9 +237,23 @@ export const useInitiateEmailVerification = async (setVerificationLoading: Funct
     toast.success("Check your email for verification link!!!")
   } catch (error: any) {
     console.log(error);
-    toast.error(error.response.data.mesage)
+    toast.error(error.response.data.message)
   }
   finally {
     setVerificationLoading(false)
+  }
+}
+
+export const useGetAllUsers = async (setLoading: Function, dispatch: Dispatch) => {
+  try {
+    const request = await api.get("/user/all")
+    const response = request.data
+    dispatch(setUsers(response.data.users))
+  } catch (error: any) {
+    console.log(error);
+    toast.error(error.response.data.message)
+  }
+  finally {
+    setLoading(false)
   }
 }

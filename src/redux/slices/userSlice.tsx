@@ -22,14 +22,15 @@ const verification: Verification = {
   verified: false,
   verifiedAt: "",
 }
-
+const users: User[] = []
 const userSlice = createSlice({
   name: "user",
   initialState: {
     user,
     isLoggedIn: false,
     token: null,
-    verification
+    verification,
+    users
   },
   reducers: {
     login: (state, { payload }) => {
@@ -53,12 +54,15 @@ const userSlice = createSlice({
       state.token = null
       localStorage.clear()
     },
+    setUsers: (state, { payload }) => {
+      state.users = [...payload];
+    },
     update: (state, { payload }) => {
       state.user = { ...payload };
     }
   }
 });
 
-export const { login, logout, update, setVerification, setToken } = userSlice.actions;
+export const { login, logout, update, setVerification, setUsers, setToken } = userSlice.actions;
 
 export default userSlice.reducer;

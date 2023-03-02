@@ -1,9 +1,7 @@
-import React, { Suspense, useContext, useEffect } from 'react'
+import { Suspense, useContext } from 'react'
 import { useSelector } from 'react-redux'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import Dashboard from './admin/Dashboard/Dashboard'
-import Settings from './admin/Settings/Settings'
-import Users from './admin/Users/Users'
+import Users from './pages/Admin/Users/Users'
 import { CommonContext } from './context'
 import PageNotfound from './pages/404/PageNotfound'
 import InternalServerError from './pages/500/InternalServerError'
@@ -20,7 +18,10 @@ import Contacts from './pages/Contacts/Contacts'
 import Groups from './pages/Groups/Groups'
 import Profile from './pages/Profile/Profile'
 import Terms from './pages/Terms/Terms'
+import Dashboard from './pages/Admin/Dashboard'
+import UserPage from './pages/Admin/Users/UserPage'
 import { User } from './types'
+import Settings from './pages/Settings/Settings'
 
 const Pages = () => {
 
@@ -40,12 +41,17 @@ const Pages = () => {
       <div style={{ backgroundColor: `${theme.backgroundColor}`, color: `${theme.textColor}` }} className={`w-screen min-h-screen flex flex-col`}>
         <BrowserRouter>
           <Routes>
-            <Route path='/' element={token ? <Home /> : <Navigate to={"/auth/login"} />}></Route>
-            <Route path='/chat' element={token ? <Chat /> : <Navigate to={"/auth/login"} />}></Route>
-            <Route path='/groups' element={token ? <Groups /> : <Navigate to={"/auth/login"} />}></Route>
-            <Route path='/contacts' element={token ? <Contacts /> : <Navigate to={"/auth/login"} />}></Route>
-            <Route path='/settings' element={token ? <Settings /> : <Navigate to={"/auth/login"} />}></Route>
-            <Route path='/profile' element={token ? <Profile /> : <Navigate to={"/auth/login"} />}></Route>
+            {
+              (userSlice.isLoggedIn && token) &&
+              (<>
+                <Route path='/' element={<Home />}></Route>
+                <Route path='/chat' element={<Chat />}></Route>
+                <Route path='/groups' element={<Groups />}></Route>
+                <Route path='/contacts' element={<Contacts />}></Route>
+                <Route path='/settings' element={<Settings />}></Route>
+                <Route path='/profile' element={<Profile />}></Route>
+              </>)
+            }
             <Route path='/auth/register' element={token ? <Navigate to={"/profile"} /> : <Signup />}></Route>
             <Route path='/auth/login' element={token ? <Navigate to={"/profile"} /> : <Login />}></Route>
             <Route path='/auth/forgot-password' element={<ForgotPassword />}></Route>
@@ -55,11 +61,11 @@ const Pages = () => {
             <Route path='/auth/verify-email/:verificationToken' element={token ? <VerifyAccount /> : <Navigate to={"/auth/login"} />}></Route>
             <Route path='/error' element={<InternalServerError />}></Route>
             <Route path='/terms' element={<Terms />}></Route>
-            {userSlice.isLoggedIn && user.role == "admin" && (
+            {userSlice.isLoggedIn && user.role == "ADMIN" && (
               <>
-                <Route path='/admin/dashboard' element={<Dashboard />}></Route>
-                <Route path='/admin/settings' element={<Settings />}></Route>
+                <Route path='/admin' element={<Dashboard />}></Route>
                 <Route path='/admin/users' element={<Users />}></Route>
+                <Route path='/admin/user/:userId' element={<UserPage />}></Route>
               </>)}
             <Route path='*' element={<PageNotfound />}></Route>
           </Routes>
