@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -6,16 +6,15 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { useSelector } from 'react-redux';
 import { User } from '../../types';
 import { TableFooter, TablePagination } from '@mui/material';
 import TablePaginationActions from './TablePaginationActions'
 import { format } from 'date-fns';
+import { CommonContext } from '../../context';
 
 const AdminUsersComponent = () => {
 
-    const users: User[] = useSelector((state: any) => state.user.users)
-    const me: User = useSelector((state: any) => state.user.user)
+    const { users, user,me } = useContext(CommonContext)
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -38,7 +37,7 @@ const AdminUsersComponent = () => {
             <span className='font-bold my-8 text-xl'>
                 Users in Chat Rode
             </span>
-            <div className='w-full px-4 shadow-lg'>
+            <div className='w-full px-4'>
                 <TableContainer className='' component={Paper}>
                     <Table sx={{ minWidth: 650 }} className="" aria-label="simple table">
                         <TableHead>

@@ -14,7 +14,7 @@ const user: User = {
   createdAt: "",
   updatedAt: "",
   passwordReset: "",
-  verification: ""
+  verification: "",
 };
 
 const verification: Verification = {
@@ -23,6 +23,7 @@ const verification: Verification = {
   verifiedAt: "",
 }
 const users: User[] = []
+const onlineUsers: string[] = []
 const userSlice = createSlice({
   name: "user",
   initialState: {
@@ -30,7 +31,8 @@ const userSlice = createSlice({
     isLoggedIn: false,
     token: null,
     verification,
-    users
+    users,
+    onlineUsers
   },
   reducers: {
     login: (state, { payload }) => {
@@ -52,6 +54,8 @@ const userSlice = createSlice({
       };
       state.isLoggedIn = false
       state.token = null
+      state.verification = {}
+      state.onlineUsers = []
       localStorage.clear()
     },
     setUsers: (state, { payload }) => {
@@ -59,10 +63,21 @@ const userSlice = createSlice({
     },
     update: (state, { payload }) => {
       state.user = { ...payload };
+    },
+    addOnlineUser(state, { payload }) {
+      if (state.onlineUsers.includes(payload)) return
+      state.onlineUsers.push(payload)
+    },
+    removeOnlineUser(state, { payload }) {
+      console.log(`Offlining user ${payload}`);
+      state.onlineUsers = state.onlineUsers.filter(user => user !== payload)
+    },
+    setOnlineUsers(state, { payload }) {
+      state.onlineUsers = [...payload];
     }
   }
 });
 
-export const { login, logout, update, setVerification, setUsers, setToken } = userSlice.actions;
+export const { login, logout, update, setVerification, setUsers, setToken, setOnlineUsers, addOnlineUser, removeOnlineUser } = userSlice.actions;
 
 export default userSlice.reducer;

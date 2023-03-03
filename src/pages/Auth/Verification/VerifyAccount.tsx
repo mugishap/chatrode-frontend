@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useVerifyEmail } from '../../../hooks'
 import { BiLoaderAlt } from "react-icons/bi"
 import { wait } from '../../../utils/wait'
-import { useDispatch } from 'react-redux'
 import CustomConfetti from '../../../components/Custom/CustomConfetti'
+import { CommonContext } from '../../../context'
 
 const VerifyAccount = () => {
 
@@ -12,7 +12,7 @@ const VerifyAccount = () => {
   const [error, setError] = useState(false)
 
   const { verificationToken } = useParams()
-  const dispatch = useDispatch()
+  const { dispatch } = useContext(CommonContext)
   useEffect(() => {
     wait(3000)
     document.title = "Account Verification"

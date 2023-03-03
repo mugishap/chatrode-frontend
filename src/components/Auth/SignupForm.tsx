@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { BiLoaderAlt } from 'react-icons/bi'
-import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { toast } from 'react-toastify'
 import { CommonContext } from '../../context'
 import { useSignup } from '../../hooks'
 import { FormInput, SignupData } from '../../types'
@@ -14,7 +12,7 @@ interface Props {
 
 const SignupForm: React.FC<Props> = ({ inputs }) => {
 
-    const { theme } = useContext(CommonContext)
+    const { theme,dispatch } = useContext(CommonContext)
     const [signupData, setSignupData] = useState<SignupData>({
         fullname: "",
         email: "",
@@ -22,7 +20,7 @@ const SignupForm: React.FC<Props> = ({ inputs }) => {
         username: "",
     })
 
-    const dispatch = useDispatch()
+    
     const [loading, setLoading] = useState(false)
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

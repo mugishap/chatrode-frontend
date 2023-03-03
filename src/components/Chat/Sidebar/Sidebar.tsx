@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import { RiAdminLine, RiMoonLine, RiSunLine } from 'react-icons/ri'
-import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { CommonContext } from '../../../context'
-import { SidebarLinks, User } from '../../../types'
+import { SidebarLinks } from '../../../types'
 import logo from "./../../../assets/logo.svg"
-import { RiContactsBookLine, RiContactsLine, RiGroupLine, RiHome2Fill, RiMessage3Line, RiSettings2Line, RiUser2Line } from "react-icons/ri";
+import { RiContactsLine, RiGroupLine, RiMessage3Line, RiSettings2Line, RiUser2Line } from "react-icons/ri";
+import { addOnlineUser, removeOnlineUser } from '../../../redux/slices/userSlice'
 
 
 const Sidebar: React.FC = ({ }) => {
@@ -52,9 +52,7 @@ const Sidebar: React.FC = ({ }) => {
             name: "settings"
         },
     ]
-
-    const user: User = useSelector((state: any) => state.user.user)
-    const { theme, currentTheme, setCurrentTheme } = useContext(CommonContext)
+    const { theme, user, socket, currentTheme, setCurrentTheme, dispatch, onlineUsers } = useContext(CommonContext)
     return (
         <div style={{ backgroundColor: `${theme.sidebarBackgroundColor}` }} className='w-20 h-screen shadow-lg shadow-gray-300 flex flex-col items-center justify-between py-6 text-slate-300'>
             <div className='logo'>

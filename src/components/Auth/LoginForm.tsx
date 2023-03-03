@@ -1,7 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { BiLoaderAlt } from 'react-icons/bi'
-import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { CommonContext } from '../../context'
 import { useLogin } from '../../hooks'
@@ -20,7 +18,7 @@ const LoginForm: React.FC<Props> = ({ inputs }) => {
     })
     const [loading, setLoading] = useState(false)
 
-    const dispatch = useDispatch()
+    const { dispatch } = useContext(CommonContext)
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -41,7 +39,7 @@ const LoginForm: React.FC<Props> = ({ inputs }) => {
                     ))
                 }
                 <div className='my-4 w-full flex items-center justify-start'>
-                    <input type={"checkbox"} className="scale-150 mr-3" required />
+                    <input type={"checkbox"} className="scale-150 mr-3" />
                     <span>Remember me.</span>
                 </div>
                 <button disabled={loading} type="submit" className='text-white mt-4 items-center justify-center bg-cr-purple w-40 h-11 rounded cursor-pointer'>

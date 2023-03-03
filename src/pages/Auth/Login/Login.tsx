@@ -28,7 +28,7 @@ const Login = () => {
   ]
 
   useEffect(() => {
-    document.title = 'Register | Chat Rode'
+    document.title = 'Login | Chat Rode'
   }, [])
   return (
     <div className='w-screen h-screen flex items-start pt-16 justify-center'>

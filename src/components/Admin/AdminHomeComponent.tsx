@@ -1,13 +1,10 @@
 import React, { useContext } from 'react'
-import { RiGroupLine, RiHome3Line, RiMessage3Line } from 'react-icons/ri'
-import { useSelector } from 'react-redux'
+import { RiGroupLine } from 'react-icons/ri'
 import { Link } from 'react-router-dom'
 import { CommonContext } from '../../context'
 
 const AdminHomeComponent = () => {
-  const user = useSelector((state: any) => state.user.user)
-  const users = useSelector((state: any) => state.user.users)
-  const { currentTheme } = useContext(CommonContext)
+  const { currentTheme,user,users } = useContext(CommonContext)
   const stats = [
     {
       name: "Users",

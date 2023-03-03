@@ -1,9 +1,9 @@
-import React, { FormEvent, useEffect, useState } from 'react'
+import React, { FormEvent, useContext, useEffect, useState } from 'react'
 import { RiLock2Line, RiMailAddLine } from 'react-icons/ri';
-import { useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Input from '../../../components/Custom/Input';
+import { CommonContext } from '../../../context';
 import { useResetPassword } from '../../../hooks';
 import { logout } from '../../../redux/slices/userSlice';
 import { FormInput } from '../../../types';
@@ -26,7 +26,7 @@ const ResetPassword = () => {
       label: "Password"
     }
   ]
-  const dispatch = useDispatch()
+  const dispatch = useContext(CommonContext)
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!formData.password) toast.error("Password is required")

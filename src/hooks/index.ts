@@ -16,6 +16,7 @@ export const useLogin = async (
     dispatch(login({ ...response.data.user }));
     dispatch(setVerification({ ...response.data.verification }));
     dispatch(setToken(response.data.token));
+    dispatch(setUsers(response.data.users));
     localStorage.setItem("access_token", response.data.token);
     toast.success("Logged in successfully!");
     window.location.replace("/")
@@ -47,6 +48,7 @@ export const useSignup = async (
     dispatch(login({ ...response.data.user }));
     dispatch(setVerification({ ...response.data.verification }));
     dispatch(setToken({ ...response.data.token }));
+    dispatch(setUsers(response.data.users));
     localStorage.setItem("access_token", response.data.token)
     toast.success("Account created successfully!");
     window.location.replace("/profile")
@@ -180,6 +182,8 @@ export const useUpdateAvatar = async (imageUrl: string, dispatch: Dispatch, setU
     dispatch(login({ ...response.data.user }));
     dispatch(setVerification({ ...response.data.verification }));
     dispatch(setVerification({ ...response.data.verification }));
+    const image = document.querySelector(".avatar") as HTMLImageElement
+    image.src = imageUrl
   } catch (error: any) {
     console.log(error);
     toast.error(error.response.data.message)

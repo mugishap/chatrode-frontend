@@ -1,7 +1,7 @@
 import IcontType from "react-icons/lib/cjs/iconBase.d.ts"
 
 export interface User {
-    active?: boolean
+    online?: boolean
     avatar?: string
     role?: string
     _id: string,
@@ -69,4 +69,13 @@ export interface Verification {
     user?: string,
     verified?: boolean,
     verifiedAt?: string
+}
+
+
+export interface Message{
+    _id?: string,
+    content?: string,
+    sender?: string,
+    receiver?: string,
+    createdAt?: string,
 }

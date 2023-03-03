@@ -1,22 +1,19 @@
-import React, { FormEvent, useContext, useEffect, useState } from 'react'
+import { FormEvent, useContext, useEffect, useState } from 'react'
 import { Fade } from 'react-awesome-reveal'
-import { BiEdit, BiLoader, BiLoaderAlt, BiTrash } from 'react-icons/bi'
-import { RiCamera2Line, RiCamera3Fill, RiCheckLine, RiCloseLine, RiDeleteBackLine, RiEdit2Line, RiLoader2Line, RiLock2Line, RiLogoutBoxLine, RiMailLine, RiMore2Fill, RiUser2Line } from 'react-icons/ri'
-import { useDispatch, useSelector } from 'react-redux'
+import { BiEdit, BiLoaderAlt, BiTrash } from 'react-icons/bi'
+import { RiCamera2Line, RiCheckLine, RiCloseLine, RiLoader2Line, RiLock2Line, RiLogoutBoxLine, RiMailLine, RiMore2Fill, RiUser2Line } from 'react-icons/ri'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { CommonContext } from '../../context'
 import { uploadImage, useInitiateEmailVerification, useUpdateAvatar, useUpdateUser } from '../../hooks'
-import { logout } from '../../redux/slices/userSlice'
-import { FormInput, User, Verification } from '../../types'
+import { logout, removeOnlineUser } from '../../redux/slices/userSlice'
+import { FormInput } from '../../types'
 import { checkFileType } from '../../utils/file'
 import Input from '../Custom/Input'
 import { format } from 'date-fns'
 
 const ProfileComponent = () => {
-    const { theme, currentTheme, setDeleteModal } = useContext(CommonContext)
-    const user: User = useSelector((state: any) => state.user.user)
-    const verification: Verification = useSelector((state: any) => state.user.verification)
+    const { socket, dispatch, user, verification, currentTheme, setDeleteModal, onlineUsers } = useContext(CommonContext)
     const navigate = useNavigate()
     const [viewMore, setViewMore] = useState(false)
     const [editMode, setEditMode] = useState(false)
@@ -28,8 +25,6 @@ const ProfileComponent = () => {
         email: user.email
     })
     const [verificationLoading, setVerificationLoading] = useState(false)
-
-    const dispatch = useDispatch()
 
     const inputs: FormInput[] = [
         {
@@ -88,7 +83,11 @@ const ProfileComponent = () => {
 
     const logUserOut = () => {
         dispatch(logout())
-        window.location.replace("/auth/login")
+        socket.emit('set-offline', {
+            userId: user._id
+        })
+        dispatch(removeOnlineUser(user._id))
+        navigate("/auth/login")
     }
 
     useEffect(() => {
@@ -162,9 +161,9 @@ const ProfileComponent = () => {
                     {user.fullname}
                 </span>
                 <span className='mt-4 flex items-center justify-center'>
-                    <div className={`p-[6px] mr-1 rounded-full ${user.active ? "bg-green-600" : "bg-slate-500"}`}></div>
+                    <div className={`p-[6px] mr-1 rounded-full ${onlineUsers.includes(user._id) ? "bg-green-600" : "bg-slate-500"}`}></div>
                     {
-                        user.active
+                        onlineUsers.includes(user._id)
                             ?
                             "Active"
                             :
